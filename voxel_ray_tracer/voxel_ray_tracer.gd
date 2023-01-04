@@ -1,5 +1,7 @@
 extends TextureRect
 
+@export var halfsize_render = false
+
 var image_size : Vector2i
 var rd = RenderingServer.create_local_rendering_device()
 var uniform_set
@@ -12,11 +14,10 @@ var camera : Camera3D
 var directional_light : DirectionalLight3D
 
 func _ready():
+	get_tree().get_root().size_changed.connect(_on_resize)
+	
 	camera = get_viewport().get_camera_3d()
 	directional_light = get_tree().current_scene.find_child("DirectionalLight3d")
-	
-	image_size.x = ProjectSettings.get_setting("display/window/size/viewport_width")
-	image_size.y = ProjectSettings.get_setting("display/window/size/viewport_height")
 	
 	texture_init()
 	
@@ -27,6 +28,11 @@ func _ready():
 func _process(_delta):
 	update_compute()
 	render()
+
+
+func _on_resize():
+	texture_init()
+	fill_output_tex_uniform()
 
 
 func setup_compute():
@@ -133,6 +139,13 @@ func projection_to_bytes(p : Projection):
 
 
 func texture_init():
+	var image_factor = 1;
+	if halfsize_render: image_factor = 2
+	
+	var window:Window = get_viewport() as Window
+	image_size.x = window.size.x/image_factor;
+	image_size.y = window.size.y/image_factor;
+	
 	var image = Image.create(image_size.x, image_size.y, false, Image.FORMAT_RGBAF)
 	var image_texture = ImageTexture.create_from_image(image)
 	texture = image_texture
