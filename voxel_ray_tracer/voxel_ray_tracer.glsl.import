@@ -1,0 +1,14 @@
+[remap]
+
+importer="glsl"
+type="RDShaderFile"
+uid="uid://bvng0gvj87w1u"
+path="res://.godot/imported/voxel_ray_tracer.glsl-5a741a6fba295d4fa8d7f098f22a40ba.res"
+
+[deps]
+
+source_file="res://voxel_ray_tracer/voxel_ray_tracer.glsl"
+dest_files=["res://.godot/imported/voxel_ray_tracer.glsl-5a741a6fba295d4fa8d7f098f22a40ba.res"]
+
+[params]
+
